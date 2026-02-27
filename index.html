@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weather Web App - Get real-time weather information for any location">
+    <title>Weather Web App</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+
+        <header class="header">
+            <h1 class="app-title">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                Weather App
+            </h1>
+        </header>
+
+        
+        <div class="search-section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="locationInput" 
+                    class="search-input" 
+                    placeholder="Enter location (e.g., New York, London, Tokyo)"
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+                <button id="currentLocationBtn" class="location-btn" title="Use current location">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+
+        <div id="loadingSpinner" class="loading-container hidden">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading weather data...</p>
+        </div>
+
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <div id="weatherContent" class="weather-content hidden">
+            <div class="current-weather">
+                <div class="location-info">
+                    <h2 id="locationName" class="location-name"></h2>
+                    <p id="currentDate" class="current-date"></p>
+                </div>
+                
+                <div class="weather-main">
+                    <div class="temperature-section">
+                        <div class="temp-display">
+                            <span id="temperature" class="temperature"></span>
+                            <span class="temp-unit">°C</span>
+                        </div>
+                        <div id="weatherCondition" class="weather-condition"></div>
+                    </div>
+                    
+                    <div id="weatherIcon" class="weather-icon-large"></div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+                            </svg>
+                        </div>
+                        <div class="detail-info">
+                            <p class="detail-label">Wind Speed</p>
+                            <p id="windSpeed" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                            </svg>
+                        </div>
+                        <div class="detail-info">
+                            <p class="detail-label">Chance of Rain</p>
+                            <p id="rainChance" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                            </svg>
+                        </div>
+                        <div class="detail-info">
+                            <p class="detail-label">Humidity</p>
+                            <p id="humidity" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="detail-info">
+                            <p class="detail-label">Feels Like</p>
+                            <p id="feelsLike" class="detail-value"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="refreshBtn" class="refresh-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <polyline points="1 20 1 14 7 14"/>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                    </svg>
+                    Refresh
+                </button>
+            </div>
+
+            <div class="forecast-section">
+                <h3 class="forecast-title">24-Hour Forecast</h3>
+                <div id="hourlyForecast" class="hourly-forecast"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
