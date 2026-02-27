@@ -244,3 +244,8 @@ If you encounter any issues or have questions:
 ---
 
 **Enjoy your Weather App! ☀️🌧️⛈️❄️**
+
+
+
+
+![Weather-Web-App](https://github.com/user-attachments/assets/d20a700e-57a5-464a-8499-be7e154f0db0)
